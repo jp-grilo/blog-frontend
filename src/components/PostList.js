@@ -1,27 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import PostService from "../services/postService";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    axios.get('http://localhost:5023/api/posts')
-      .then(response => {
-        setPosts(response.data);
-      })
-      .catch(error => {
-        console.error('There was an error fetching the posts!', error);
-      });
-  }, []);
+  const fetchPosts = async () => {
+    try {
+      const data = await PostService.getPosts();
+      setPosts(data);
+    } catch (error) {
+      console.error("There was an error fetching the posts!", error);
+    }
+  };
 
   return (
     <div>
       <h1>Posts</h1>
-      <ul>
-        {posts.map(post => (
-          <li key={post.id}>{post.title}</li>
-        ))}
-      </ul>
+      <button onClick={fetchPosts}>Fetch Posts</button>
+      {posts.length === 0 ? (
+        <p>Sem posts</p>
+      ) : (
+        <ul>
+          {posts.map((post) => (
+            <li key={post.id}>{post.title}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

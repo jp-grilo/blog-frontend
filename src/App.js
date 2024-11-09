@@ -1,14 +1,19 @@
-import React from 'react';
-import PostList from './components/PostList';
-import CreatePost from './components/CreatePost';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import PostList from "./components/PostList";
+import PostCreate from "./components/PostCreate";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Blog</h1>
-      <CreatePost />
-      <PostList />
-    </div>
+    <Router>
+      <div className="App">
+        <h1>Blog</h1>
+        <Routes>
+          <Route path="/" element={<PostList />} />
+          <Route path="/create" element={<PostCreate />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
